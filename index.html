@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+  <meta charset="UTF-8">
+</head>
+<style type="text/css">
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table-container {
+  overflow-y: scroll;
+}
+
+.inline-block {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px; 
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+label {
+  font-weight: 600;
+}
+
+
+tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.editable {
+  border: 2px dashed #ccc;
+  padding: 5px;
+  cursor: text;
+  position: relative;
+  padding-right: 20px;
+}
+
+.editable:hover {
+  background-color: #e7e7e7;
+}
+
+.editable:focus {
+  background-color: white;
+  border: 2px solid #888;
+  outline: none;
+}
+
+.input-div label {
+  display: inline-block;
+  width: 150px;
+}
+
+.input-div input {
+  font-size: 1.02em;
+}
+
+.input-div {
+  margin: 4px 0;
+}
+
+.interest-rate-input .percent-symbol {
+  margin-left: -40px;
+}
+
+.editable:hover .cell-btn {
+  display: block;
+}
+
+.content-container {
+  width: 95%;
+  max-width: 1280px;
+  min-width: 890px;
+  margin: 0 auto; 
+}
+
+.chart-container{
+width: 100%;
+max-width: 100%;
+ height: 300px;
+}
+
+.valuetable{
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.valuetablecell {
+    display:table-cell;
+    width:100px;
+    border:solid lightslategrey 1px;
+    position: relative;
+}
+.valuetablebutton {
+    width:35px;
+    height: 35px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: larger;
+}
+
+.valuetableselectbutton {
+    width:100%;
+    height: 20px;
+    position: absolute;
+    background-color: #dddddd;
+    color: black;
+    border: 0;
+}
+
+.valuetableselectbutton:hover {
+    background-color: #afff9e !important;
+}
+
+
+.valuetablecellValues{
+    margin:20px 0;
+}
+
+.github-link {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.github-icon {
+    width: 100px;
+    height: auto;
+}
+
+.val_diff{
+    font-size: small;
+    color: lightslategrey;
+    font-weight: normal;
+}
+
+#tooltip {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    pointer-events: none; /* Prevents tooltip from interfering with mouse events */
+}
+#mainTable{
+    table-layout:fixed;
+}
+th.th_year {
+  width: 4%
+}
+th.th_paid {
+  width: 18%
+}
+th.th_extra {
+  width: 22%
+}
+th.th_interest {
+  width: 12%
+}
+.extraPaymentSpan{
+    position: absolute;
+    bottom: 0;
+    font-size: smaller;
+}
+#tooltip {
+	display: none;
+	position: absolute;
+	padding: 5px;
+	background-color: rgba(255,255,255,0.8);
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	pointer-events: none;
+	font-size: smaller;
+}
+.bargraph{
+	display: flex;
+	width: 100%;
+	height: 50px;
+	border: 1px solid #ccc;
+	position: relative;
+	font-size: smaller;
+}
+.bargraph div{
+  line-height: 50px;
+  text-align: center;
+  color: brown;
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<body>
+<div class="content-container"> 
+<div class="header-container">
+    <h1 id="headline">Casa Calc</h1>
+    <img src="hypoicon.png" style="float:right; padding: 10px;" width="150px" >
+</div>
+
+<a href="https://github.com/randalfien/casa_calc" class="github-link">
+    <img src="GitHub_Logo.png" alt="GitHub" class="github-icon">
+</a>
+
+<br>
+    <div class="input-div">
+        <label for="principal">Principal Amount:</label>
+        <input type="number" id="principal" value="6000000" min="1">
+    </div>
+    <div class="input-div">
+        <label for="years">Loan Term (Years):</label>
+        <input type="number" id="years" value="30" min="1">
+    </div>
+    <div class="input-div  interest-rate-input">
+        <label for="interest">Interest:</label>
+        <input type="number" id="interest" value="5.49" min="0" step="0.01" style="width:70px;"> <span class="percent-symbol">%</span>
+    </div>
+
+    <div class="input-div  interest-rate-input">
+        <label for="inflation">Inflation:</label>
+        <input type="number" id="inflation" value="2.19" min="0" step="0.01" style="width:70px;"> <span class="percent-symbol">%</span>
+    </div>
+
+    <div class="input-div">
+        <label for="insurance">Monthly insurance:</label>
+        <input type="number" id="insurance" value="0" min="0">
+    </div>
+
+    <div class="input-div">
+        <button onclick="performCalculation()" id="runButton" style='width:200px;height: 65px;margin-top: 50px;'>Calculate Mortgage</button>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="mortgageGraph"   width="800" height="300"></canvas>
+    </div>
+
+
+
+    <div id="valuetable" class="valuetable" style="visibility: hidden">
+            <div id = "valuetablecell1" class="valuetablecell">
+                <button onclick="selectSavedValue(1)" id="selectButton1" class="valuetableselectbutton" > </button>
+                <div class="valuetablecellValues">
+                    <label id="totalPaidLabel1">Total amount paid:</label><br>
+                    <label id="totalInterestPaidLabel1">Total interest paid:</label><br>
+                    <label id="totalPaidInStartYearMoney1" title="adjusted for inflation">Total AFI:</label>
+                </div>
+                <button onclick="saveCurrentValues(1)" id="saveButton1" class="valuetablebutton" >+</button>
+            </div>
+    </div>
+
+    <table id="mainTable">
+        <thead>
+            <tr>
+                <th class="th_year">Year</th>
+                <th class="th_monthly">Monthly Payment</th>
+                <th class="th_monthly_afi">With inflation</th>
+                <th class="th_interest">Interest Rate</th>
+                <th class="th_paid">Paid Breakdown</th>
+                <th class="th_remains">Remaining Principal</th>
+                <th class="th_extra">Extra Payment</th>
+            </tr>
+        </thead>
+        <tbody id="mortgageTableBody">
+            <!-- Rows will be inserted here -->
+        </tbody>
+    </table>
+    <div id="tooltip">
+    	<div id="tooltip_header" style="font-weight: bold"></div>
+    	<div id="tooltip_content"></div>
+    </div>
+</div> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
